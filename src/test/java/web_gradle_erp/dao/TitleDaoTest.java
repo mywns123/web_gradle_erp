@@ -1,6 +1,5 @@
 package web_gradle_erp.dao;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
@@ -51,22 +50,22 @@ public class TitleDaoTest {
 		list.parallelStream().forEach(System.out::println);
 	}
 
-	@Test
+//	@Test
 	public void test04SelectTitleByNO() {
 		fail("Not yet implemented");
 	}
 
-	@Test
+//	@Test
 	public void test02InsertTitle() {
 		fail("Not yet implemented");
 	}
 
-	@Test
+//	@Test
 	public void test03UpdateTitle() {
 		fail("Not yet implemented");
 	}
 
-	@Test
+//	@Test
 	public void test05DeleteTitle() {
 		fail("Not yet implemented");
 	}

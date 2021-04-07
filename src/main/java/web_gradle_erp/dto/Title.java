@@ -4,9 +4,7 @@ public class Title {
 	private int titleNo;
 	private String tName;
 
-	public Title() {
-		// TODO Auto-generated constructor stub
-	}
+	public Title() {}
 
 	public Title(int titleNo) {
 		super();
@@ -39,9 +37,5 @@ public class Title {
 	public String toString() {
 		return String.format("Title [titleNo=%s, tName=%s]", titleNo, tName);
 	}
-
-	
-
-	
 	
 }
