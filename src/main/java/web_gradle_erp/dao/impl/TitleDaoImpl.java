@@ -13,15 +13,15 @@ import web_gradle_erp.dto.Title;
 public class TitleDaoImpl implements TitleDao {
 
 	private static final TitleDaoImpl instance = new TitleDaoImpl();
-	
-	private Connection con;	
+
+	private Connection con;
 
 	public TitleDaoImpl() {}
 
 	public static TitleDaoImpl getInstance() {
 		return instance;
 	}
-	
+
 	public void setCon(Connection con) {
 		this.con = con;
 	}
@@ -29,20 +29,20 @@ public class TitleDaoImpl implements TitleDao {
 	@Override
 	public List<Title> selectTitleByAll() {
 		String sql = "select titleNo, titleName from title";
-		try(PreparedStatement pstmt = con.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery()){
+		try (PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
 			List<Title> list = new ArrayList<Title>();
-			do {
-				list.add(getTitle(rs));
-			}while(rs.next());
-			
+			if (rs.next()) {
+				do {
+					list.add(getTitle(rs));
+				} while (rs.next());
+				return list;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
-	
 
 	private Title getTitle(ResultSet rs) throws SQLException {
 		int titleNo = rs.getInt("titleNo");
@@ -52,25 +52,56 @@ public class TitleDaoImpl implements TitleDao {
 
 	@Override
 	public Title selectTitleByNO(Title title) {
+		String sql = "select titleNo, titleName from title where titleNo = ?";
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, title.getTitleNo());
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					return getTitle(rs);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public int insertTitle(Title title) {
+		String sql = "insert into title values(?, ?)";
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, title.getTitleNo());
+			pstmt.setString(2, title.gettName());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
 	@Override
 	public int updateTitle(Title title) {
+		String sql = "update title set titleName = ? where titleNo = ?";
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setString(1, title.gettName());
+			pstmt.setInt(2, title.getTitleNo());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
 	@Override
 	public int deleteTitle(Title title) {
-		// TODO Auto-generated method stub
+		String sql = "delete from title where titleNo = ?";
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, title.getTitleNo());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
-
-
 
 }
